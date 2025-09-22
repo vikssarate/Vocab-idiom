@@ -155,7 +155,15 @@ if ('serviceWorker' in navigator) {
   };
   const setNet = () => netTag.textContent = navigator.onLine ? 'Online' : 'Offline';
   setNet(); window.addEventListener('online', setNet); window.addEventListener('offline', setNet);
-  const esc = s => (s??'').replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;","">":"&gt;","\"":"&quot;","'":"&#039;"}[m]));
+
+  /* FIXED: proper esc map (previous version caused a syntax error) */
+  const esc = s => (s ?? '').replace(/[&<>"']/g, m => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  }[m]));
 
   /* ---------- Robust sql.js loader (local → CDN fallback) ---------- */
   function loadScript(url){
